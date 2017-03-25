@@ -71,7 +71,7 @@ namespace Project2 {
 
 	public: System::Windows::Forms::ColorDialog^  colorDialog1;
 	private: System::Windows::Forms::Button^  button1;
-	private: System::Windows::Forms::Button^  button2;
+
 	private: System::Windows::Forms::ToolStrip^  toolStrip1;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton1;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton2;
@@ -124,7 +124,6 @@ namespace Project2 {
 			this->toolTip1 = (gcnew System::Windows::Forms::ToolTip(this->components));
 			this->colorDialog1 = (gcnew System::Windows::Forms::ColorDialog());
 			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->toolStrip1 = (gcnew System::Windows::Forms::ToolStrip());
 			this->toolStripButton1 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton2 = (gcnew System::Windows::Forms::ToolStripButton());
@@ -204,15 +203,6 @@ namespace Project2 {
 			this->button1->Text = L"Select Color";
 			this->button1->UseVisualStyleBackColor = true;
 			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click_1);
-			// 
-			// button2
-			// 
-			this->button2->Location = System::Drawing::Point(430, 132);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(75, 23);
-			this->button2->TabIndex = 5;
-			this->button2->Text = L"button2";
-			this->button2->UseVisualStyleBackColor = true;
 			// 
 			// toolStrip1
 			// 
@@ -338,7 +328,6 @@ namespace Project2 {
 			this->ClientSize = System::Drawing::Size(532, 308);
 			this->Controls->Add(this->toolStrip2);
 			this->Controls->Add(this->toolStrip1);
-			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->menuStrip1);
