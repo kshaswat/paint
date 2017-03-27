@@ -1,4 +1,5 @@
 #include "MyForm.h"
+#include<GL\freeglut.h>
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -11,4 +12,5 @@ void main(array<String^>^ arg)
 
 	Project2::MyForm form;
 	Application::Run(%form);
+
 }
