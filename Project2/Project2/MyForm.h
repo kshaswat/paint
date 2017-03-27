@@ -1,5 +1,7 @@
 #pragma once
 
+#include "OpenGL.h"
+
 namespace Project2 {
 
 	using namespace System;
@@ -8,6 +10,7 @@ namespace Project2 {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace OpenGLForm;
 
 	/// <summary>
 	/// Summary for MyForm
@@ -21,6 +24,7 @@ namespace Project2 {
 			//
 			//TODO: Add the constructor code here
 			//
+			OpenGL = gcnew COpenGL(this, 640, 480);
 		}
 
 	protected:
@@ -34,6 +38,13 @@ namespace Project2 {
 				delete components;
 			}
 		}
+
+	private:
+		/// <summary>
+		/// Required designer variable.
+		/// </summary>
+
+		OpenGLForm::COpenGL ^ OpenGL;
 
 	protected:
 
@@ -54,7 +65,7 @@ namespace Project2 {
 	private: System::Windows::Forms::ToolStripMenuItem^  newToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  openToolStripMenuItem;
 	private: System::Windows::Forms::ToolStripMenuItem^  closeToolStripMenuItem;
-	private: System::Windows::Forms::PictureBox^  pictureBox1;
+
 
 
 
@@ -84,6 +95,8 @@ namespace Project2 {
 	private: System::Windows::Forms::ToolStrip^  toolStrip2;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton9;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton10;
+	private: System::Windows::Forms::Timer^  timer1;
+
 	public:
 	private:
 
@@ -120,7 +133,6 @@ namespace Project2 {
 			this->newToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->openToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
 			this->closeToolStripMenuItem = (gcnew System::Windows::Forms::ToolStripMenuItem());
-			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->toolTip1 = (gcnew System::Windows::Forms::ToolTip(this->components));
 			this->colorDialog1 = (gcnew System::Windows::Forms::ColorDialog());
 			this->button1 = (gcnew System::Windows::Forms::Button());
@@ -136,8 +148,8 @@ namespace Project2 {
 			this->toolStrip2 = (gcnew System::Windows::Forms::ToolStrip());
 			this->toolStripButton9 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton10 = (gcnew System::Windows::Forms::ToolStripButton());
+			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->menuStrip1->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->toolStrip1->SuspendLayout();
 			this->toolStrip2->SuspendLayout();
 			this->SuspendLayout();
@@ -147,7 +159,7 @@ namespace Project2 {
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->fileToolStripMenuItem });
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(532, 24);
+			this->menuStrip1->Size = System::Drawing::Size(810, 24);
 			this->menuStrip1->TabIndex = 1;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -179,14 +191,6 @@ namespace Project2 {
 			this->closeToolStripMenuItem->Size = System::Drawing::Size(103, 22);
 			this->closeToolStripMenuItem->Text = L"Close";
 			// 
-			// pictureBox1
-			// 
-			this->pictureBox1->Location = System::Drawing::Point(27, 52);
-			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(345, 229);
-			this->pictureBox1->TabIndex = 2;
-			this->pictureBox1->TabStop = false;
-			// 
 			// colorDialog1
 			// 
 			this->colorDialog1->AnyColor = true;
@@ -214,7 +218,7 @@ namespace Project2 {
 			});
 			this->toolStrip1->Location = System::Drawing::Point(0, 24);
 			this->toolStrip1->Name = L"toolStrip1";
-			this->toolStrip1->Size = System::Drawing::Size(24, 284);
+			this->toolStrip1->Size = System::Drawing::Size(24, 505);
 			this->toolStrip1->TabIndex = 6;
 			this->toolStrip1->Text = L"toolStrip1";
 			// 
@@ -299,7 +303,7 @@ namespace Project2 {
 			});
 			this->toolStrip2->Location = System::Drawing::Point(24, 24);
 			this->toolStrip2->Name = L"toolStrip2";
-			this->toolStrip2->Size = System::Drawing::Size(508, 25);
+			this->toolStrip2->Size = System::Drawing::Size(786, 25);
 			this->toolStrip2->TabIndex = 7;
 			this->toolStrip2->Text = L"toolStrip2";
 			// 
@@ -321,15 +325,20 @@ namespace Project2 {
 			this->toolStripButton10->Size = System::Drawing::Size(23, 22);
 			this->toolStripButton10->Text = L"toolStripButton10";
 			// 
+			// timer1
+			// 
+			this->timer1->Enabled = true;
+			this->timer1->Interval = 10;
+			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(532, 308);
+			this->ClientSize = System::Drawing::Size(810, 529);
 			this->Controls->Add(this->toolStrip2);
 			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->button1);
-			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->menuStrip1);
 			this->MainMenuStrip = this->menuStrip1;
 			this->Name = L"MyForm";
@@ -337,7 +346,6 @@ namespace Project2 {
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->menuStrip1->ResumeLayout(false);
 			this->menuStrip1->PerformLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			this->toolStrip1->ResumeLayout(false);
 			this->toolStrip1->PerformLayout();
 			this->toolStrip2->ResumeLayout(false);
@@ -370,6 +378,12 @@ namespace Project2 {
 	private: System::Void toolStripButton2_Click(System::Object^  sender, System::EventArgs^  e) {
 	}
 private: System::Void toolStripButton1_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e) {
+		UNREFERENCED_PARAMETER(sender);
+		UNREFERENCED_PARAMETER(e);
+		OpenGL->Render();
+		OpenGL->SwapOpenGLBuffers();
 }
 };
 }
