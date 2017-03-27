@@ -16,8 +16,8 @@ namespace OpenGLForm
 			CreateParams^ cp = gcnew CreateParams;
 
 			// Set the position on the form
-			cp->X = 0;
-			cp->Y = 0;
+			cp->X = 40;
+			cp->Y = 60;
 			cp->Height = iHeight;
 			cp->Width = iWidth;
 
@@ -26,7 +26,7 @@ namespace OpenGLForm
 
 			// Create as a child of the specified parent and make OpenGL compliant (no clipping)
 			cp->Style = WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN;
-
+			
 			// Create the actual window
 			this->CreateHandle(cp);
 
@@ -43,10 +43,14 @@ namespace OpenGLForm
 			rquad = 0.0f;
 		}
 
-
 		System::Void Render(System::Void)
 		{
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear screen and depth buffer
+			draw1();
+		}
+		
+		System::Void draw1(System::Void)
+		{
 			glLoadIdentity();									// Reset the current modelview matrix
 			glTranslatef(-1.5f, 0.0f, -6.0f);						// Move left 1.5 units and into the screen 6.0
 			glRotatef(rtri, 0.0f, 1.0f, 0.0f);						// Rotate the triangle on the y axis 
@@ -113,8 +117,14 @@ namespace OpenGLForm
 			glVertex3f(1.0f, -1.0f, -1.0f);					// Bottom right of the quad (right)
 			glEnd();											// Done drawing the quad
 
-			rtri += 0.2f;											// Increase the rotation variable for the triangle
-			rquad -= 0.15f;										// Decrease the rotation variable for the quad
+			rtri += valrtri;											// Increase the rotation variable for the triangle
+			rquad += valrquad;										// Decrease the rotation variable for the quad
+		}
+
+		System::Void clicked(System::Void)
+		{
+			valrtri = -valrtri;
+			valrquad = -valrquad;
 		}
 
 		System::Void SwapOpenGLBuffers(System::Void)
@@ -127,6 +137,8 @@ namespace OpenGLForm
 		HGLRC m_hglrc;
 		GLfloat	rtri;				// Angle for the triangle
 		GLfloat	rquad;				// Angle for the quad
+		GLfloat	valrtri=.2f;
+		GLfloat	valrquad=-.15f;
 
 	protected:
 		~COpenGL(System::Void)
@@ -189,6 +201,9 @@ namespace OpenGLForm
 
 			return 1;
 		}
+
+
+
 
 		bool InitGL(GLvoid)										// All setup for opengl goes here
 		{

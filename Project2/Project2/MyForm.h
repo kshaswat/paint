@@ -96,6 +96,7 @@ namespace Project2 {
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton9;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton10;
 	private: System::Windows::Forms::Timer^  timer1;
+	private: System::Windows::Forms::Panel^  panel1;
 
 	public:
 	private:
@@ -149,6 +150,7 @@ namespace Project2 {
 			this->toolStripButton9 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton10 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
+			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->menuStrip1->SuspendLayout();
 			this->toolStrip1->SuspendLayout();
 			this->toolStrip2->SuspendLayout();
@@ -331,11 +333,22 @@ namespace Project2 {
 			this->timer1->Interval = 10;
 			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
 			// 
+			// panel1
+			// 
+			this->panel1->BackColor = System::Drawing::Color::Coral;
+			this->panel1->Location = System::Drawing::Point(125, 107);
+			this->panel1->Name = L"panel1";
+			this->panel1->Size = System::Drawing::Size(311, 151);
+			this->panel1->TabIndex = 8;
+			this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel1_Paint);
+			this->panel1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::panel1_MouseDown);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(810, 529);
+			this->Controls->Add(this->panel1);
 			this->Controls->Add(this->toolStrip2);
 			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->button1);
@@ -384,6 +397,12 @@ private: System::Void timer1_Tick(System::Object^  sender, System::EventArgs^  e
 		UNREFERENCED_PARAMETER(e);
 		OpenGL->Render();
 		OpenGL->SwapOpenGLBuffers();
+}
+private: System::Void panel1_MouseDown(System::Object^ sender, System::Windows::Forms::MouseEventArgs^ e)
+{
+			 OpenGL->clicked();
+}
+private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 }
 };
 }
