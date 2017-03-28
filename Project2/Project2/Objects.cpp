@@ -63,15 +63,4 @@ torus::torus(GLfloat x, GLfloat y, GLfloat z, GLfloat r1, GLfloat r2, color c) :
 	this->r2 = r2;
 	this->c = c;
 }
-void sphere::draw(GLfloat m[])
-{
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glMultMatrixf(m);
-	glColor3f(this->c.r, this->c.g, this->c.b);
-	glutSolidSphere(this->radius, 100, 100);
-}
 
-void sphere::printDetails()
-{
-}

@@ -3,11 +3,155 @@
 #include <windows.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include "canvas.h"
+#include "Objects.h"
+#include <vector>
+//#include "test1.cpp"
+const float PI = 3.14159265358979323846f;
 
 using namespace System::Windows::Forms;
 
 namespace OpenGLForm
 {
+	template <typename TYPE>
+	class GeometryVector
+	{
+
+
+	public:
+
+		GeometryVector(const TYPE x_ = TYPE(), const TYPE y_ = TYPE(), const TYPE z_ = TYPE());
+
+		const TYPE x;
+		const TYPE y;
+		const TYPE z;
+
+	};
+#pragma pack()
+
+	template <typename TYPE>
+	GeometryVector<TYPE>::GeometryVector(const TYPE x_, const TYPE y_, const TYPE z_)
+		:
+		x(x_),
+		y(y_),
+		z(z_)
+	{
+	}
+
+	class StackedSphere
+	{
+
+	public:
+
+		StackedSphere(const float radius = 1.0f, const unsigned int stacks = 8, const unsigned int slices = 16);
+		void render() const;
+
+	private:
+
+		std::vector<GeometryVector<float> > geometryData_;
+		std::vector<unsigned short> indexData_;
+
+	};
+
+	StackedSphere::StackedSphere(const float radius, const unsigned int stacks, const unsigned int slices)
+	{
+		for (unsigned int stackNumber = 0; stackNumber <= stacks; ++stackNumber)
+		{
+			for (unsigned int sliceNumber = 0; sliceNumber < slices; ++sliceNumber)
+			{
+				float theta = stackNumber * PI / stacks;
+				float phi = sliceNumber * 2 * PI / slices;
+				float sinTheta = std::sin(theta);
+				float sinPhi = std::sin(phi);
+				float cosTheta = std::cos(theta);
+				float cosPhi = std::cos(phi);
+				geometryData_.push_back(GeometryVector<float>(radius * cosPhi * sinTheta, radius * sinPhi * sinTheta, radius * cosTheta));
+			}
+		}
+		for (unsigned int stackNumber = 0; stackNumber < stacks; ++stackNumber)
+		{
+			for (unsigned int sliceNumber = 0; sliceNumber <= slices; ++sliceNumber)
+			{
+				indexData_.push_back((stackNumber * slices) + (sliceNumber % slices));
+				indexData_.push_back(((stackNumber + 1) * slices) + (sliceNumber % slices));
+			}
+		}
+	}
+
+	void StackedSphere::render() const
+	{
+		glVertexPointer(3, GL_FLOAT, 0, &geometryData_[0]);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glDrawElements(GL_TRIANGLE_STRIP, indexData_.size(), GL_UNSIGNED_SHORT, &indexData_[0]);
+	}
+
+	class SpiralSphere
+	{
+
+	public:
+
+		SpiralSphere(const float radius = 1.0f, const unsigned int loops = 8, const unsigned int segmentsPerLoop = 16);
+		void render() const;
+
+	private:
+
+		std::vector<GeometryVector<float> > geometryData_;
+		std::vector<unsigned short> indexData_;
+
+	};
+
+	SpiralSphere::SpiralSphere(const float radius, const unsigned int loops, const unsigned int segmentsPerLoop)
+	{
+		for (unsigned int loopSegmentNumber = 0; loopSegmentNumber < segmentsPerLoop; ++loopSegmentNumber)
+		{
+			float theta = 0;
+			float phi = loopSegmentNumber * 2 * PI / segmentsPerLoop;
+			float sinTheta = std::sin(theta);
+			float sinPhi = std::sin(phi);
+			float cosTheta = std::cos(theta);
+			float cosPhi = std::cos(phi);
+			geometryData_.push_back(GeometryVector<float>(radius * cosPhi * sinTheta, radius * sinPhi * sinTheta, radius * cosTheta));
+
+		}
+		for (unsigned int loopNumber = 0; loopNumber <= loops; ++loopNumber)
+		{
+			for (unsigned int loopSegmentNumber = 0; loopSegmentNumber < segmentsPerLoop; ++loopSegmentNumber)
+			{
+				float theta = (loopNumber * PI / loops) + ((PI * loopSegmentNumber) / (segmentsPerLoop * loops));
+				if (loopNumber == loops)
+				{
+					theta = PI;
+				}
+				float phi = loopSegmentNumber * 2 * PI / segmentsPerLoop;
+				float sinTheta = std::sin(theta);
+				float sinPhi = std::sin(phi);
+				float cosTheta = std::cos(theta);
+				float cosPhi = std::cos(phi);
+				geometryData_.push_back(GeometryVector<float>(radius * cosPhi * sinTheta, radius * sinPhi * sinTheta, radius * cosTheta));
+
+			}
+		}
+		for (unsigned int loopSegmentNumber = 0; loopSegmentNumber < segmentsPerLoop; ++loopSegmentNumber)
+		{
+			indexData_.push_back(loopSegmentNumber);
+			indexData_.push_back(segmentsPerLoop + loopSegmentNumber);
+		}
+		for (unsigned int loopNumber = 0; loopNumber < loops; ++loopNumber)
+		{
+			for (unsigned int loopSegmentNumber = 0; loopSegmentNumber < segmentsPerLoop; ++loopSegmentNumber)
+			{
+				indexData_.push_back(((loopNumber + 1) * segmentsPerLoop) + loopSegmentNumber);
+				indexData_.push_back(((loopNumber + 2) * segmentsPerLoop) + loopSegmentNumber);
+			}
+		}
+	}
+
+	void SpiralSphere::render() const
+	{
+		glVertexPointer(3, GL_FLOAT, 0, &geometryData_[0]);
+		glEnableClientState(GL_VERTEX_ARRAY);
+		glDrawElements(GL_TRIANGLE_STRIP, indexData_.size(), GL_UNSIGNED_SHORT, &indexData_[0]);
+	}
 	public ref class COpenGL : public System::Windows::Forms::NativeWindow
 	{
 	public:
@@ -47,9 +191,215 @@ namespace OpenGLForm
 		{
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear screen and depth buffer
 			//draw1();
-			drawCone(0, 0, 0, 1, 1);
+			//drawCone(0, 0, 0, 1, 1);
 			//circle(0, 0, 0, 10);
+			display();
 		}
+		void display()
+		{
+			//std::cout<<"In display function\n";
+			/*glBegin(GL_POINT);
+			glColor3f(255,255,255);
+			glVertex2f(0.0f,0.0f);
+			glEnd();*/
+			//drawRectangularPrism();
+
+
+			//static GLfloat rot=1;
+
+
+			//static GLfloat	x=0.1;
+			//static GLfloat  c1=-5;
+			//static GLfloat  c2=5;
+			//glMatrixMode(GL_MODELVIEW);
+			//glLoadIdentity();
+			//glTranslatef(0.0f,0.0f,-15.0f);
+			//glColor3f (0.8, 0.2, 0.1);              // Red ball displaced to left.
+			//   glPushMatrix ();
+			//      glTranslatef    (5, 0.0, 0.0);
+			//      glRotatef       (60.0, 1,0,0);
+			//      glRotatef       (rot, 0,0,1);   // Red ball rotates at twice the rate of blue ball.
+			//   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, qaGreen);
+			//   glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, qaGreen);
+			//   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, qaWhite);
+			//      glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 20);
+			//      glutSolidSphere (1.0, 20, 50);
+			//   glPopMatrix ();
+			//glColor3f (0.2, 0.8, 0.1);              // Red ball displaced to left.
+			//   glPushMatrix ();
+			//      //glTranslatef    (-5, 0.0, 0.0);
+			//      glRotatef       (rot, 0,1,0);
+			//      glRotatef       (30.0, 0,0,1);   // Red ball rotates at twice the rate of blue ball.
+			//   glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, qaGreen);
+			//   glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, qaRed);
+			//   glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, qaWhite);
+			//      glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, 20);
+			//   glutSolidTorus(1,2,100,100);
+			//   glPopMatrix ();
+
+			//
+			//c1+=x;
+			//c2-=x;
+
+			//std::cout<<c1<<std::endl;
+			//if(abs((abs(c1)-6))<=1)
+			//	x=0.01;
+			//	if(abs(c1-c2)<=2)
+			//{
+			//	x=-0.01;
+			//}
+
+			//rot+=1;
+
+
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+			//glRotatef(ry,1,0,0);
+			/*GLfloat m1[16];
+			glGetFloatv(GL_MODELVIEW_MATRIX,m1);
+			for (int i = 0; i < 4; i++)
+			{
+			for (int j = 0; j < 4; j++)
+			{
+			cout<<m1[4*j+i]<<"  ";
+			}
+			cout<<"\n";
+			}
+
+			color c[]={color(0,0,0),color(255,255,255),color(1,0,0),color(1,0,1),color(0,0,1),color(0,1,1)};
+			Objects * obj=new Cuboid(2,-2,-2,6,1,1,c);
+
+			obj->draw(m1);
+
+			delete obj;
+			Objects * obj2=new Cuboid(2,-2,-2,1,1,6,c);
+			obj2->draw(m1);
+			delete obj2;
+			char ch='y';
+			GLint x,y,z,l,b,h;
+			color c1;*/
+			//Objects *p;
+			/*while(ch=='y')
+			{
+			cin>>x>>y>>z>>l>>b>>h>>c1.r>>c1.g>>c1.b;
+			p=new Cuboid(x,y,z,l,b,h,c);
+			can1->regObj(p);
+			cout<<"Continue ? : ";
+			ch='n';
+			cin>>ch;
+			}
+			can1->clearCanvas();*/
+
+			/*glBegin(GL_QUADS);
+			glColor3f(1.0,1.0,0.0);
+			glVertex3d(-5,-5,-20);
+			glVertex3d(-5,5,-20);
+			glVertex3d(5,5,-20);
+			glVertex3d(5,-5,-20);
+			glEnd();*/
+			//glTranslatef(1, 1, -50);
+			//glBegin(GL_QUADS);
+			//glColor3f(1.0, 1.0, 1.0);
+			//glVertex3f(-20.0f, 0.0f, 0.0f);
+			//glVertex3f(-20.0f, 0.0f, -20.0f);  
+			//glVertex3f(20.0f, 0.0f, -20.0f); 
+			//glVertex3f(20.0f, 0.0f, 0.0f);
+			//glEnd();
+			//glBegin(GL_QUADS);
+			//glColor3f(1.0, 0.0, 0.0);
+			//glVertex3f(0.0f, 0.0f, 0.0f);
+			//glVertex3f(0.0f, 20.0f, 0.0f);
+			//glVertex3f(0.0f, 20.0f,-20.0f);
+			//glVertex3f(0.0f, 0.0f, -20.0f);
+			//
+			//glBegin(GL_QUADS);
+			//glColor3f(1.0, 0.0, 0.0);
+			//glVertex3d(posX2 - 0.1, posY2 - 0.1, posZ2-10.1);
+			//glVertex3d(posX2 - 0.1, posY2 + 0.1, posZ2-10.1);
+			//glVertex3d(posX2 + 0.1, posY2 + 0.1, posZ2-10.1);
+			//glVertex3d(posX2 + 0.1, posY2 - 0.1, posZ2-10.1);
+			//glEnd(); 
+			////glColor3f(1.0f, 1.0f, 1.0f);    // Color Red    
+			////glVertex3f(1.0f, 1.0f, -8.9f);    // Top Right Of The Quad (Front)
+			////glVertex3f(1.0f, 3.0f, -8.9f);    // Top Left Of The Quad (Front)
+			////glVertex3f(3.0f, 3.0f, -8.9f);    // Bottom Left Of The Quad (Front)
+			////glVertex3f(3.0f, 1.0f, -8.9f);
+			//glEnd();
+			glTranslatef(0, 0, -50);
+			//glScaled(3.0, 3.0, 3.0);
+			//glRotated(30, 0, 0, 1);
+			glBegin(GL_QUADS);        // Draw The Cube Using quads
+			glColor3f(0.0f, 1.0f, 0.0f);    // Color Blue
+			glVertex3f(1.0f, 1.0f, -1.0f);    // Top Right Of The Quad (Top)
+			glVertex3f(-1.0f, 1.0f, -1.0f);    // Top Left Of The Quad (Top)
+			glVertex3f(-1.0f, 1.0f, 1.0f);    // Bottom Left Of The Quad (Top)
+			glVertex3f(1.0f, 1.0f, 1.0f);    // Bottom Right Of The Quad (Top)
+			glColor3f(1.0f, 0.5f, 0.0f);    // Color Orange
+			glVertex3f(1.0f, -1.0f, 1.0f);    // Top Right Of The Quad (Bottom)
+			glVertex3f(-1.0f, -1.0f, 1.0f);    // Top Left Of The Quad (Bottom)
+			glVertex3f(-1.0f, -1.0f, -1.0f);    // Bottom Left Of The Quad (Bottom)
+			glVertex3f(1.0f, -1.0f, -1.0f);    // Bottom Right Of The Quad (Bottom)
+			glColor3f(1.0f, 0.0f, 0.0f);    // Color Red    
+			glVertex3f(1.0f, 1.0f, 1.0f);    // Top Right Of The Quad (Front)
+			glVertex3f(-1.0f, 1.0f, 1.0f);    // Top Left Of The Quad (Front)
+			glVertex3f(-1.0f, -1.0f, 1.0f);    // Bottom Left Of The Quad (Front)
+			glVertex3f(1.0f, -1.0f, 1.0f);    // Bottom Right Of The Quad (Front)
+			glColor3f(1.0f, 1.0f, 0.0f);    // Color Yellow
+			glVertex3f(1.0f, -1.0f, -1.0f);    // Top Right Of The Quad (Back)
+			glVertex3f(-1.0f, -1.0f, -1.0f);    // Top Left Of The Quad (Back)
+			glVertex3f(-1.0f, 1.0f, -1.0f);    // Bottom Left Of The Quad (Back)
+			glVertex3f(1.0f, 1.0f, -1.0f);    // Bottom Right Of The Quad (Back)
+			glColor3f(0.0f, 0.0f, 1.0f);    // Color Blue
+			glVertex3f(-1.0f, 1.0f, 1.0f);    // Top Right Of The Quad (Left)
+			glVertex3f(-1.0f, 1.0f, -1.0f);    // Top Left Of The Quad (Left)
+			glVertex3f(-1.0f, -1.0f, -1.0f);    // Bottom Left Of The Quad (Left)
+			glVertex3f(-1.0f, -1.0f, 1.0f);    // Bottom Right Of The Quad (Left)
+			glColor3f(1.0f, 0.0f, 1.0f);    // Color Violet
+			glVertex3f(1.0f, 1.0f, -1.0f);    // Top Right Of The Quad (Right)
+			glVertex3f(1.0f, 1.0f, 1.0f);    // Top Left Of The Quad (Right)
+			glVertex3f(1.0f, -1.0f, 1.0f);    // Bottom Left Of The Quad (Right)
+			glVertex3f(1.0f, -1.0f, -1.0f);    // Bottom Right Of The Quad (Right)
+			glEnd();   // -See more at : http ://www.codemiles.com/c-opengl-examples/draw-3d-cube-using-opengl-t9018.html#sthash.L3gWuACU.dpuf
+			////glTranslatef(0, 0, 10);
+			////cout<<"here\n";
+			///*glBegin(GL_QUADS);
+			//glColor3f(1.0,1.0,1.0);
+			//glVertex3d(posX-5,posY-5,posZ);
+			//glVertex3d(posX-5,posY+5,posZ);
+			//glVertex3d(posX+5,posY+5,posZ);
+			//glVertex3d(posX+5,posY-5,posZ);
+			//glEnd();
+			//
+			///*glColor3f(0.0,1.0,0.0);
+			//glTranslated(posX,posY,posZ);
+			//glutSolidSphere(1,10,10);*/
+			///*glBegin(GL_LINES);
+			//glColor3f(0.0,1.0,0.0);
+			//glVertex3d(-3,-3,-5);
+			//glVertex3d(posX,posY,posZ);*/
+			////glColor3f(0.0,1.0,0.0);
+			////glVertex3d(0,0,-5);
+			////glVertex3d(posX,posY,posZ);
+			////glEnd();
+			//glTranslatef(-5, 0, 0);
+			color c[] = { color(0, 0, 0), color(255, 255, 255), color(1, 0, 0), color(1, 0, 1), color(0, 0, 1), color(0, 1, 1) };
+			Objects *p1 = new Cuboid(0, 0, 0, 2, 2, 2, c);
+			glTranslatef(-5, 2, 0);
+			GLfloat m1[16];
+			glGetFloatv(GL_MODELVIEW_MATRIX, m1);
+			p1->draw(m1);
+			glTranslatef(5, -2, 0);
+			glTranslatef(5, 0, 0);
+			StackedSphere sphere1(4, 20, 40);
+			sphere1.render();
+			//glutSolidSphere(3, 100, 100);
+			glGetFloatv(GL_MODELVIEW_MATRIX, m1);
+			//Objects *p2 = new sphere(0, 0, 0, 1, color(1.0, 0, 0));
+			//p2->draw(m1);
+			delete p1;
+			//delete p2;
+		}
+
 		
 		void drawCone(float a, float b, float c, float r, float h){
 			float p, k;

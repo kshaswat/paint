@@ -80,12 +80,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="canvas.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="Objects.cpp" />
+    <ClCompile Include="test1.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="canvas.h" />
+    <ClInclude Include="Header.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="Objects.h" />
     <ClInclude Include="OpenGL.h" />
   </ItemGroup>
   <ItemGroup>
