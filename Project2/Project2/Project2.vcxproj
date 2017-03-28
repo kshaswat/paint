@@ -59,7 +59,7 @@
       <AdditionalDependencies />
       <SubSystem>Windows</SubSystem>
       <EntryPointSymbol>main</EntryPointSymbol>
-      <AdditionalLibraryDirectories>C:\Users\bapuni033\Desktop\Glew and Glut\glew-1.11.0\lib;C:\Users\bapuni033\Desktop\Glew and Glut\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\dibya\Downloads\Glew and Glut\glew-1.11.0\lib;C:\Users\dibya\Downloads\Glew and Glut\freeglut\lib;C:\Users\bapuni033\Desktop\Glew and Glut\glew-1.11.0\lib;C:\Users\bapuni033\Desktop\Glew and Glut\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

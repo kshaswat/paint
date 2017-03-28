@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <GL/gl.h>
 #include <GL/glu.h>
+#include <GL\freeglut.h>
 
 using namespace System::Windows::Forms;
 
@@ -47,8 +48,9 @@ namespace OpenGLForm
 		{
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear screen and depth buffer
 			//draw1();
-			drawCone(0, 0, 0, 1, 1);
+			//drawCone(0, 0, 0, 1, 1);
 			//circle(0, 0, 0, 10);
+			glutSolidCone(5,5,100,100);
 		}
 		
 		void drawCone(float a, float b, float c, float r, float h){
