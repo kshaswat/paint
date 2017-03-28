@@ -96,7 +96,7 @@ namespace Project2 {
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton9;
 	private: System::Windows::Forms::ToolStripButton^  toolStripButton10;
 	private: System::Windows::Forms::Timer^  timer1;
-	private: System::Windows::Forms::Panel^  panel1;
+
 
 	public:
 	private:
@@ -150,7 +150,6 @@ namespace Project2 {
 			this->toolStripButton9 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->toolStripButton10 = (gcnew System::Windows::Forms::ToolStripButton());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
-			this->panel1 = (gcnew System::Windows::Forms::Panel());
 			this->menuStrip1->SuspendLayout();
 			this->toolStrip1->SuspendLayout();
 			this->toolStrip2->SuspendLayout();
@@ -158,10 +157,12 @@ namespace Project2 {
 			// 
 			// menuStrip1
 			// 
+			this->menuStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
 			this->menuStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(1) { this->fileToolStripMenuItem });
 			this->menuStrip1->Location = System::Drawing::Point(0, 0);
 			this->menuStrip1->Name = L"menuStrip1";
-			this->menuStrip1->Size = System::Drawing::Size(810, 24);
+			this->menuStrip1->Padding = System::Windows::Forms::Padding(9, 3, 0, 3);
+			this->menuStrip1->Size = System::Drawing::Size(1215, 35);
 			this->menuStrip1->TabIndex = 1;
 			this->menuStrip1->Text = L"menuStrip1";
 			// 
@@ -172,25 +173,25 @@ namespace Project2 {
 					this->openToolStripMenuItem, this->closeToolStripMenuItem
 			});
 			this->fileToolStripMenuItem->Name = L"fileToolStripMenuItem";
-			this->fileToolStripMenuItem->Size = System::Drawing::Size(37, 20);
+			this->fileToolStripMenuItem->Size = System::Drawing::Size(50, 29);
 			this->fileToolStripMenuItem->Text = L"File";
 			// 
 			// newToolStripMenuItem
 			// 
 			this->newToolStripMenuItem->Name = L"newToolStripMenuItem";
-			this->newToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->newToolStripMenuItem->Size = System::Drawing::Size(141, 30);
 			this->newToolStripMenuItem->Text = L"New";
 			// 
 			// openToolStripMenuItem
 			// 
 			this->openToolStripMenuItem->Name = L"openToolStripMenuItem";
-			this->openToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->openToolStripMenuItem->Size = System::Drawing::Size(141, 30);
 			this->openToolStripMenuItem->Text = L"Open";
 			// 
 			// closeToolStripMenuItem
 			// 
 			this->closeToolStripMenuItem->Name = L"closeToolStripMenuItem";
-			this->closeToolStripMenuItem->Size = System::Drawing::Size(103, 22);
+			this->closeToolStripMenuItem->Size = System::Drawing::Size(141, 30);
 			this->closeToolStripMenuItem->Text = L"Close";
 			// 
 			// colorDialog1
@@ -202,9 +203,10 @@ namespace Project2 {
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(407, 52);
+			this->button1->Location = System::Drawing::Point(610, 80);
+			this->button1->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(75, 23);
+			this->button1->Size = System::Drawing::Size(112, 35);
 			this->button1->TabIndex = 4;
 			this->button1->Text = L"Select Color";
 			this->button1->UseVisualStyleBackColor = true;
@@ -213,14 +215,16 @@ namespace Project2 {
 			// toolStrip1
 			// 
 			this->toolStrip1->Dock = System::Windows::Forms::DockStyle::Left;
+			this->toolStrip1->ImageScalingSize = System::Drawing::Size(24, 24);
 			this->toolStrip1->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(8) {
 				this->toolStripButton1,
 					this->toolStripButton2, this->toolStripButton3, this->toolStripButton4, this->toolStripButton5, this->toolStripButton6, this->toolStripButton7,
 					this->toolStripButton8
 			});
-			this->toolStrip1->Location = System::Drawing::Point(0, 24);
+			this->toolStrip1->Location = System::Drawing::Point(0, 35);
 			this->toolStrip1->Name = L"toolStrip1";
-			this->toolStrip1->Size = System::Drawing::Size(24, 505);
+			this->toolStrip1->Padding = System::Windows::Forms::Padding(0, 0, 2, 0);
+			this->toolStrip1->Size = System::Drawing::Size(30, 779);
 			this->toolStrip1->TabIndex = 6;
 			this->toolStrip1->Text = L"toolStrip1";
 			// 
@@ -230,7 +234,7 @@ namespace Project2 {
 			this->toolStripButton1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton1.Image")));
 			this->toolStripButton1->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton1->Name = L"toolStripButton1";
-			this->toolStripButton1->Size = System::Drawing::Size(21, 20);
+			this->toolStripButton1->Size = System::Drawing::Size(25, 28);
 			this->toolStripButton1->Text = L"toolStripButton1";
 			this->toolStripButton1->Click += gcnew System::EventHandler(this, &MyForm::toolStripButton1_Click);
 			// 
@@ -240,7 +244,7 @@ namespace Project2 {
 			this->toolStripButton2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton2.Image")));
 			this->toolStripButton2->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton2->Name = L"toolStripButton2";
-			this->toolStripButton2->Size = System::Drawing::Size(21, 20);
+			this->toolStripButton2->Size = System::Drawing::Size(25, 28);
 			this->toolStripButton2->Text = L"toolStripButton2";
 			// 
 			// toolStripButton3
@@ -249,7 +253,7 @@ namespace Project2 {
 			this->toolStripButton3->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton3.Image")));
 			this->toolStripButton3->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton3->Name = L"toolStripButton3";
-			this->toolStripButton3->Size = System::Drawing::Size(21, 20);
+			this->toolStripButton3->Size = System::Drawing::Size(25, 28);
 			this->toolStripButton3->Text = L"toolStripButton3";
 			// 
 			// toolStripButton4
@@ -258,7 +262,7 @@ namespace Project2 {
 			this->toolStripButton4->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton4.Image")));
 			this->toolStripButton4->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton4->Name = L"toolStripButton4";
-			this->toolStripButton4->Size = System::Drawing::Size(21, 20);
+			this->toolStripButton4->Size = System::Drawing::Size(25, 28);
 			this->toolStripButton4->Text = L"toolStripButton4";
 			// 
 			// toolStripButton5
@@ -267,7 +271,7 @@ namespace Project2 {
 			this->toolStripButton5->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton5.Image")));
 			this->toolStripButton5->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton5->Name = L"toolStripButton5";
-			this->toolStripButton5->Size = System::Drawing::Size(21, 20);
+			this->toolStripButton5->Size = System::Drawing::Size(25, 28);
 			this->toolStripButton5->Text = L"toolStripButton5";
 			// 
 			// toolStripButton6
@@ -276,7 +280,7 @@ namespace Project2 {
 			this->toolStripButton6->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton6.Image")));
 			this->toolStripButton6->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton6->Name = L"toolStripButton6";
-			this->toolStripButton6->Size = System::Drawing::Size(21, 20);
+			this->toolStripButton6->Size = System::Drawing::Size(25, 28);
 			this->toolStripButton6->Text = L"toolStripButton6";
 			// 
 			// toolStripButton7
@@ -285,7 +289,7 @@ namespace Project2 {
 			this->toolStripButton7->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton7.Image")));
 			this->toolStripButton7->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton7->Name = L"toolStripButton7";
-			this->toolStripButton7->Size = System::Drawing::Size(21, 20);
+			this->toolStripButton7->Size = System::Drawing::Size(25, 28);
 			this->toolStripButton7->Text = L"toolStripButton7";
 			// 
 			// toolStripButton8
@@ -294,18 +298,20 @@ namespace Project2 {
 			this->toolStripButton8->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton8.Image")));
 			this->toolStripButton8->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton8->Name = L"toolStripButton8";
-			this->toolStripButton8->Size = System::Drawing::Size(21, 20);
+			this->toolStripButton8->Size = System::Drawing::Size(25, 28);
 			this->toolStripButton8->Text = L"toolStripButton8";
 			// 
 			// toolStrip2
 			// 
+			this->toolStrip2->ImageScalingSize = System::Drawing::Size(24, 24);
 			this->toolStrip2->Items->AddRange(gcnew cli::array< System::Windows::Forms::ToolStripItem^  >(2) {
 				this->toolStripButton9,
 					this->toolStripButton10
 			});
-			this->toolStrip2->Location = System::Drawing::Point(24, 24);
+			this->toolStrip2->Location = System::Drawing::Point(30, 35);
 			this->toolStrip2->Name = L"toolStrip2";
-			this->toolStrip2->Size = System::Drawing::Size(786, 25);
+			this->toolStrip2->Padding = System::Windows::Forms::Padding(0, 0, 2, 0);
+			this->toolStrip2->Size = System::Drawing::Size(1185, 31);
 			this->toolStrip2->TabIndex = 7;
 			this->toolStrip2->Text = L"toolStrip2";
 			// 
@@ -315,7 +321,7 @@ namespace Project2 {
 			this->toolStripButton9->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton9.Image")));
 			this->toolStripButton9->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton9->Name = L"toolStripButton9";
-			this->toolStripButton9->Size = System::Drawing::Size(23, 22);
+			this->toolStripButton9->Size = System::Drawing::Size(28, 28);
 			this->toolStripButton9->Text = L"toolStripButton9";
 			// 
 			// toolStripButton10
@@ -324,7 +330,7 @@ namespace Project2 {
 			this->toolStripButton10->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"toolStripButton10.Image")));
 			this->toolStripButton10->ImageTransparentColor = System::Drawing::Color::Magenta;
 			this->toolStripButton10->Name = L"toolStripButton10";
-			this->toolStripButton10->Size = System::Drawing::Size(23, 22);
+			this->toolStripButton10->Size = System::Drawing::Size(28, 28);
 			this->toolStripButton10->Text = L"toolStripButton10";
 			// 
 			// timer1
@@ -333,27 +339,17 @@ namespace Project2 {
 			this->timer1->Interval = 10;
 			this->timer1->Tick += gcnew System::EventHandler(this, &MyForm::timer1_Tick);
 			// 
-			// panel1
-			// 
-			this->panel1->BackColor = System::Drawing::Color::Coral;
-			this->panel1->Location = System::Drawing::Point(125, 107);
-			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(311, 151);
-			this->panel1->TabIndex = 8;
-			this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel1_Paint);
-			this->panel1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::panel1_MouseDown);
-			// 
 			// MyForm
 			// 
-			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
+			this->AutoScaleDimensions = System::Drawing::SizeF(9, 20);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(810, 529);
-			this->Controls->Add(this->panel1);
+			this->ClientSize = System::Drawing::Size(1215, 814);
 			this->Controls->Add(this->toolStrip2);
 			this->Controls->Add(this->toolStrip1);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->menuStrip1);
 			this->MainMenuStrip = this->menuStrip1;
+			this->Margin = System::Windows::Forms::Padding(4, 5, 4, 5);
 			this->Name = L"MyForm";
 			this->Text = L"golu";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
