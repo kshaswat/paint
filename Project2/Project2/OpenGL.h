@@ -46,9 +46,125 @@ namespace OpenGLForm
 		System::Void Render(System::Void)
 		{
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);	// Clear screen and depth buffer
-			draw1();
+			//draw1();
+			drawCone(0, 0, 0, 1, 1);
+			//circle(0, 0, 0, 10);
 		}
 		
+		void drawCone(float a, float b, float c, float r, float h){
+			float p, k;
+			float x, y;
+			x = 0;
+			y = r * 10;
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
+			glTranslated(0, 0, -30);
+			glRotatef(-15, 1.0f, 0.0f, 0.0f);
+			glBegin(GL_TRIANGLE_FAN);
+			glColor3f(1.0, 1.0, 1.0);
+			glVertex3f(a, b+h, c);
+			p = 1 - r * 10;
+			k = 0;
+			while (x <= y){
+				float xs = x / 10;
+				float ys = y / 10;
+				glVertex3f(xs + a, b, ys + c);
+				glVertex3f(xs + a, b, -ys + c);
+				glVertex3f(-xs + a, b, ys + c);
+				glVertex3f(-xs + a, b, -ys + c);
+				glVertex3f(ys + a, b, xs + c);
+				glVertex3f(-ys + a, b, xs + c);
+				glVertex3f(ys + a, b, -xs + c);
+				glVertex3f(-ys + a, b, -xs + c);
+				if (p<0){
+					x = x + 1;
+					p = (p + 2 * x + 1);
+				}
+				else{
+					x = x + 1;
+					y = y - 1;
+					p = (p + 2 * x + 1 - 2 * y);
+				}
+				k++;
+			}
+
+			glEnd();
+			
+			x = 0;
+			y = r * 10;
+			glBegin(GL_TRIANGLE_STRIP);
+			glColor3f(1.0, 0.0, 0.0);
+			glVertex3f(a, b, c);
+			p = 1 - r * 10;
+			k = 0;
+			while (x <= y){
+				float xs = x / 10;
+				float ys = y / 10;
+				glVertex3f(xs + a, b, ys + c);
+				glVertex3f(xs + a, b, -ys + c);
+				glVertex3f(-xs + a, b, ys + c);
+				glVertex3f(-xs + a, b, -ys + c);
+				glVertex3f(ys + a, b, xs + c);
+				glVertex3f(-ys + a, b, xs + c);
+				glVertex3f(ys + a, b, -xs + c);
+				glVertex3f(-ys + a, b, -xs + c);
+				if (p<0){
+					x = x + 1;
+					p = (p + 2 * x + 1);
+				}
+				else{
+					x = x + 1;
+					y = y - 1;
+					p = (p + 2 * x + 1 - 2 * y);
+				}
+				k++;
+			}
+
+			glEnd();
+		}
+
+		void circle(float a, float b, float c, float r){
+			float p, k;
+			float x, y;
+			x = 0;
+			y = r*10;
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+			
+			glTranslated(0, 0, -30);
+			glRotatef(-15, 1.0f, 0.0f, 0.0f);
+			glBegin(GL_TRIANGLE_STRIP);
+			glColor3f(1.0,1.0,0.0);
+			glVertex3f(a,b,c);
+			p = 1 - r*10;
+			k = 0;
+			while (x <= y){
+				float xs = x / 10;
+				float ys = y / 10;
+				glVertex3f(xs + a, b, ys + c);
+				glVertex3f(xs + a, b, -ys + c);
+				glVertex3f(-xs + a, b, ys + c);
+				glVertex3f(-xs + a, b, -ys + c);
+				glVertex3f(ys + a, b, xs + c);
+				glVertex3f(-ys + a, b, xs + c);
+				glVertex3f(ys + a, b, -xs + c);
+				glVertex3f(-ys + a, b, -xs + c);
+				if (p<0){
+					x = x + 1;
+					p = (p + 2 * x + 1);
+				}
+				else{
+					x = x + 1;
+					y = y - 1;
+					p = (p + 2 * x + 1 - 2 * y);
+				}
+				k++;
+			}
+
+			glEnd();
+		}
+
 		System::Void draw1(System::Void)
 		{
 			glLoadIdentity();									// Reset the current modelview matrix
