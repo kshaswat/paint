@@ -13,6 +13,17 @@ using namespace System::Windows::Forms;
 
 namespace OpenGLForm
 {
+	float radius = 4;
+	void OnMouseClick(int button, int state, int x, int y)
+	{
+	//	if (button == GLUT_MIDDLE_BUTTON && state == GLUT_DOWN)
+	//	{
+	//		//store the x,y value where the click happened
+	//		radius = 8;
+	//	}
+
+	}
+
 	template <typename TYPE>
 	class GeometryVector
 	{
@@ -180,6 +191,7 @@ namespace OpenGLForm
 			{
 				MySetPixelFormat(m_hDC);
 				ReSizeGLScene(iWidth, iHeight);
+				//glutMouseFunc(OnMouseClick);
 				InitGL();
 			}
 
@@ -193,8 +205,174 @@ namespace OpenGLForm
 			//draw1();
 			//drawCone(0, 0, 0, 1, 1);
 			//circle(0, 0, 0, 10);
-			display();
+			//display();
+			//cylinder(0, 0, 0, 10, 10);
+			draw_cylinder(50, 0, 2, 4);
 		}
+		void draw_cylinder(int n, int arg, float mult, float v) {
+			/*
+			Function drw_polygon:
+			Arguments:
+			n - number of sides
+			arg - starting angle (not so important at all)
+			mult - multiplying sides to incrase their length
+			v - cylinder height
+			*/
+
+			// DumbProof Double Check :)
+			if (arg < 0)
+				arg = 0;
+			float M_PI = 3;
+			//for (float M_PI = 0; M_PI < 4 * n - 4;)
+			// Cylinder Bottom
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
+			glTranslated(0, 0, -30);
+			glRotatef(60, 1.0f, 0.0f, 0.0f);
+			glBegin(GL_POLYGON);
+			glColor4f(1.0, 0.0, 0.0, 1.0);
+			for (int i = arg; i <= (360 + arg); i += (360 / n)) {
+				float a = i * M_PI / 180; // degrees to radians
+				glVertex3f(mult * cos(a), mult * sin(a), 0.0);
+			}
+			glEnd();
+
+			// Cylinder Top
+			glBegin(GL_POLYGON);
+			glColor4f(0.0, 0.0, 1.0, 1.0);
+			for (int i = arg; i <= (360 + arg); i += (360 / n)) {
+				float a = i * M_PI / 180; // degrees to radians
+				glVertex3f(mult * cos(a), mult * sin(a), v);
+			}
+			glEnd();
+
+			// Cylinder "Cover"
+			glBegin(GL_QUAD_STRIP);
+			glColor4f(1.0, 1.0, 0.0, 1.0);
+			for (int i = arg; i < 480; i += (360 / n)) {
+				float a = i * M_PI / 180; // degrees to radians
+				glVertex3f(mult * cos(a), mult * sin(a), 0.0);
+				glVertex3f(mult * cos(a), mult * sin(a), v);
+			}
+			glEnd();
+
+		}
+		void cylinder(float a, float b, float c, float r, float h){
+			float p, k;
+			float x, y;
+			x = 0;
+			y = r * 10;
+			glMatrixMode(GL_MODELVIEW);
+			glLoadIdentity();
+
+			glTranslated(0, 0, -30);
+			glRotatef(15, 1.0f, 0.0f, 0.0f);
+			glBegin(GL_TRIANGLE_STRIP);
+			glColor3f(1.0, 1.0, 1.0);
+			
+			p = 1 - r * 10;
+			k = 0;
+			while (x <= y){
+				float xs = x / 10;
+				float ys = y / 10;
+				float h2 = h / 2;
+				glVertex3f(xs + a, b+h2, ys + c);
+				glVertex3f(xs + a, b - h2, ys + c);
+				glVertex3f(xs + a, b + h2, -ys + c);
+				glVertex3f(xs + a, b - h2, -ys + c);
+				glVertex3f(-xs + a, b + h2, ys + c);
+				glVertex3f(-xs + a, b - h2, ys + c);
+				glVertex3f(-xs + a, b + h2, -ys + c);
+				glVertex3f(-xs + a, b - h2, -ys + c);
+				glVertex3f(ys + a, b + h2, xs + c);
+				glVertex3f(ys + a, b - h2, xs + c);
+				glVertex3f(-ys + a, b + h2, xs + c);
+				glVertex3f(-ys + a, b - h2, xs + c);
+				glVertex3f(ys + a, b + h2, -xs + c);
+				glVertex3f(ys + a, b - h2, -xs + c);
+				glVertex3f(-ys + a, b + h2, -xs + c);
+				glVertex3f(-ys + a, b - h2, -xs + c);
+				if (p<0){
+					x = x + 1;
+					p = (p + 2 * x + 1);
+				}
+				else{
+					x = x + 1;
+					y = y - 1;
+					p = (p + 2 * x + 1 - 2 * y);
+				}
+				k++;
+			}
+
+			glEnd();
+			x = 0;
+			y = r * 10;
+			glBegin(GL_TRIANGLE_STRIP);
+			glColor3f(1.0, 0.0, 0.0);
+			glVertex3f(a, b, c);
+			p = 1 - r * 10;
+			k = 0;
+			while (x <= y){
+				float xs = x / 10;
+				float ys = y / 10;
+				float h2 = h / 2;
+				glVertex3f(xs + a, b+h2, ys + c);
+				glVertex3f(xs + a, b + h2, -ys + c);
+				glVertex3f(-xs + a, b + h2, ys + c);
+				glVertex3f(-xs + a, b + h2, -ys + c);
+				glVertex3f(ys + a, b + h2, xs + c);
+				glVertex3f(-ys + a, b + h2, xs + c);
+				glVertex3f(ys + a, b + h2, -xs + c);
+				glVertex3f(-ys + a, b + h2, -xs + c);
+				if (p<0){
+					x = x + 1;
+					p = (p + 2 * x + 1);
+				}
+				else{
+					x = x + 1;
+					y = y - 1;
+					p = (p + 2 * x + 1 - 2 * y);
+				}
+				k++;
+			}
+
+			glEnd();
+			x = 0;
+			y = r * 10;
+			glBegin(GL_TRIANGLE_STRIP);
+			glColor3f(1.0, 0.0, 0.0);
+			glVertex3f(a, b, c);
+			p = 1 - r * 10;
+			k = 0;
+			while (x <= y){
+				float xs = x / 10;
+				float ys = y / 10;
+				float h2 = -h / 2;
+				glVertex3f(xs + a, b + h2, ys + c);
+				glVertex3f(xs + a, b + h2, -ys + c);
+				glVertex3f(-xs + a, b + h2, ys + c);
+				glVertex3f(-xs + a, b + h2, -ys + c);
+				glVertex3f(ys + a, b + h2, xs + c);
+				glVertex3f(-ys + a, b + h2, xs + c);
+				glVertex3f(ys + a, b + h2, -xs + c);
+				glVertex3f(-ys + a, b + h2, -xs + c);
+				if (p<0){
+					x = x + 1;
+					p = (p + 2 * x + 1);
+				}
+				else{
+					x = x + 1;
+					y = y - 1;
+					p = (p + 2 * x + 1 - 2 * y);
+				}
+				k++;
+			}
+
+			glEnd();
+		}
+
+
 		void display()
 		{
 			//std::cout<<"In display function\n";
@@ -390,7 +568,7 @@ namespace OpenGLForm
 			p1->draw(m1);
 			glTranslatef(5, -2, 0);
 			glTranslatef(5, 0, 0);
-			StackedSphere sphere1(4, 20, 40);
+			StackedSphere sphere1(radius, 20, 40);
 			sphere1.render();
 			//glutSolidSphere(3, 100, 100);
 			glGetFloatv(GL_MODELVIEW_MATRIX, m1);
@@ -681,7 +859,7 @@ namespace OpenGLForm
 			glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really nice perspective calculations
 			return TRUE;										// Initialisation went ok
 		}
-
+		
 		GLvoid ReSizeGLScene(GLsizei width, GLsizei height)		// Resize and initialise the gl window
 		{
 			if (height == 0)										// Prevent A Divide By Zero By
@@ -690,7 +868,7 @@ namespace OpenGLForm
 			}
 
 			glViewport(0, 0, width, height);						// Reset The Current Viewport
-
+			
 			glMatrixMode(GL_PROJECTION);						// Select The Projection Matrix
 			glLoadIdentity();									// Reset The Projection Matrix
 
